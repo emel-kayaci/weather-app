@@ -18,7 +18,7 @@
 - Api çağırımlarında header’da api key bilgisi bulunmalıdır.
 - 1 ayda maksimum 250 istek yapılabilmektedir.
 - Api’dan dönecek cevap 30 dakika içerisinde değişmemektedir.
-- 
+
 ## Mimari
 
 <p><img src="https://github.com/emel-kayaci/weather-app/assets/43893190/ed75692c-b679-4ff2-b680-69962a6d1b74" width="1000" align = center></p>
