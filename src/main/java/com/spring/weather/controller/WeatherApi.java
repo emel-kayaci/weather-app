@@ -2,6 +2,7 @@ package com.spring.weather.controller;
 
 import com.spring.weather.dto.WeatherDto;
 import com.spring.weather.service.WeatherService;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ public class WeatherApi {
     }
 
     @GetMapping("/{city}")
-    public ResponseEntity<WeatherDto> getWeather(@PathVariable("city") String city) {
+    public ResponseEntity<WeatherDto> getWeather(@PathVariable("city") @NotBlank String city) {
         return ResponseEntity.ok(weatherService.getWeatherByCityName(city));
     }
 }

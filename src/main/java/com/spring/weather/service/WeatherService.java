@@ -1,12 +1,10 @@
 package com.spring.weather.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.weather.constants.Constants;
 import com.spring.weather.dto.WeatherDto;
 import com.spring.weather.dto.WeatherResponse;
 import com.spring.weather.model.WeatherEntity;
 import com.spring.weather.repository.WeatherRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,10 +15,8 @@ import java.util.Optional;
 @Service
 public class WeatherService {
 
-    private static final String API_URL = "http://api.weatherstack.com/current?access_key=e8b9644694c4a90ca73e3f63741c3d76&query=";
     private final WeatherRepository weatherRepository;
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public WeatherService(WeatherRepository weatherRepository, RestTemplate restTemplate) {
         this.weatherRepository = weatherRepository;
@@ -39,14 +35,9 @@ public class WeatherService {
     }
 
     private WeatherEntity getWeatherFromWeatherStack(String city) {
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(API_URL + city, String.class);
-        // with getForObject you can directly map to desired object
-        try {
-            WeatherResponse weatherResponse = objectMapper.readValue(responseEntity.getBody(), WeatherResponse.class);
-            return saveWeatherEntity(city, weatherResponse);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        WeatherResponse weatherResponse = restTemplate.getForObject(getWeatherStackUrl(city), WeatherResponse.class);
+        // todo: add null check
+        return saveWeatherEntity(city, weatherResponse);
     }
 
     private WeatherEntity saveWeatherEntity(String city, WeatherResponse weatherResponse) {
@@ -59,5 +50,10 @@ public class WeatherService {
                 LocalDateTime.parse(weatherResponse.location().localTime(), dateTimeFormatter));
 
         return weatherRepository.save(weatherEntity);
+    }
+
+    // todo: add vault for secret information
+    private String getWeatherStackUrl(String city) {
+        return Constants.API_URL + Constants.ACCESS_KEY_PARAM + Constants.API_KEY + Constants.QUERY_KEY_PARAM + city;
     }
 }
