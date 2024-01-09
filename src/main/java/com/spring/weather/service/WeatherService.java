@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class WeatherService {
 
-    private static final String API_URL = "";
+    private static final String API_URL = "http://api.weatherstack.com/current?access_key=e8b9644694c4a90ca73e3f63741c3d76&query=";
     private final WeatherRepository weatherRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
