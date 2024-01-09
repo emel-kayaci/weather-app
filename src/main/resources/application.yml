@@ -6,4 +6,5 @@ spring:
     console:
       enabled: true
 weather-stack:
+  api-url: http://api.weatherstack.com/current
 
