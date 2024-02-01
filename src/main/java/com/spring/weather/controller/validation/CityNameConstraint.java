@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(
         validatedBy = {CityNameValidator.class}
 )
-@Target({METHOD, FIELD, PARAMETER})
+@Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 public @interface CityNameConstraint {
     String message() default "Invalid city name";
